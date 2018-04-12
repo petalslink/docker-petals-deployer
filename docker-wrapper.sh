@@ -70,8 +70,11 @@ then
   echo
   echo "# File found, deploying:"
   while IFS='' read -r line || [[ -n "$line" ]]; do
-    echo "Deploying $line..."
-    $petalscli deploy -- -u $line
+    if [ ! -z ${line+x} ] && [ "$line" != "" ] 
+    then
+      echo "Deploying $line..."
+      $petalscli deploy -- -u $line
+    fi
   done < "$DEPLOY_FILE"
   echo "# Files deploy over."
 fi
